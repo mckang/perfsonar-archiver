@@ -1,0 +1,60 @@
+##
+##  docker-compose for fast installation
+##
+
+version: "3.7"
+
+networks:
+ pscheduler-net:
+  name: pscheduler-net
+  driver: bridge
+  ipam:
+    config:
+      - subnet: 172.1.10.0/24
+      
+services:
+
+  graphite:
+    container_name: graphite
+    image: graphiteapp/graphite-statsd
+    networks:
+      - pscheduler-net
+    restart: on-failure
+    ports:
+      - "80:80"
+      - "2003-2004:2003-2004"
+      - "2023-2024:2023-2024"
+      - "8125:8125/udp"    
+      - "8126:8126" 
+      
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    networks:
+      - pscheduler-net
+    restart: on-failure
+    links:
+      - graphite    
+    depends_on:
+      - graphite  
+    ports:
+      - "3000:3000"       
+      
+  archiver:
+    container_name: archiver
+    image: mckang/pscheduler_graphite_archiver:v0.1
+    networks:
+      - pscheduler-net
+    restart: on-failure
+    environment:
+      GRAPHITE_SERVER_URL: http://192.168.99.1
+      CARBON_SERVER_ADDRESS: graphite 
+      CARBON_SERVER_PORT: 2003  
+      PSCHEDULER_API_URL: https://192.168.99.10/pscheduler  
+      LOGGING_LEVEL_COM_BEWISE_PSONAR: debug  
+    links:
+      - graphite        
+    depends_on:
+      - graphite 
+    ports:
+      - "8080:8080"                

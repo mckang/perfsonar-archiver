@@ -1,0 +1,59 @@
+<div class="row">
+    <form class="col s12" name="taskForm">
+        <div class="input-field col s2">
+            <input type="text" class="validate" id="repeat"  ng-model="task.repeat" required>
+            <label for="repeat">Repeat</label>
+        </div>
+        <div class="input-field col s2">
+            <input type="text" class="validate" id="destination" ng-model="task.destination" required>
+            <label for="destination">Destination</label>
+        </div>
+        <div class="input-field col s2">
+            <input type="text" class="validate" id="packetCount"  ng-model="task.packetCount" required>
+            <label for="packetCount">Packet Count</label>
+        </div>
+        <div class="col s3 input-field">
+            <input type="submit" id="send" value="Register TWAMP Task" class="waves-effect waves-light btn" ng-click="addTask()"/>
+            <label for="send">Register</label>
+        </div>
+    </form>
+</div>
+<div class="row" >
+  <div class="col-lg-11 table-wrapper-scroll-y my-custom-scrollbar">
+    <table class="highlight bordered " >
+        <thead class="yellow">
+        <tr>
+            <th>ID</th>
+            <th>REPEAT</th>
+            <th>TOOL</th>
+            <th>TYPE</th>
+            <th>DESTINATION</th>
+            <th>PACKET COUNT</th>
+            <th>ENABLED</th>            
+            <th>Action</th>  
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="task in tasks">
+        	<td><a href="#/task/{{task.id}},{{task.destination}}">{{task.id}}</a></td>
+            <td>{{task.repeat}}</td>
+            <td>{{task.tool}}</td>
+            <td>{{task.type}}</td>
+            <td>{{task.destination}}</td>
+            <td>{{task.packetCount}}</td>
+            <td>
+                <div ng-if="task.enabled"><img src="/images/on.png"></div>
+                <div ng-if="!task.enabled"><img src="/images/off.png"></div>
+            </td>
+            <td>
+                <div ng-if="task.enabled"><input type="submit" value="DISABLE" class="waves-effect waves-light btn" ng-click="deleteTask(task.id)"/></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
+</div>
+<div class="row" style="text-align: center;">
+	<img ng-src="{{template}}"/>
+</div>
+

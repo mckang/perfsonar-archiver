@@ -1,0 +1,27 @@
+<div class="row" >
+    <div class="col s4">
+    </div>
+</div>
+<div class="row" style="text-align: center;">
+	<img ng-src="{{delayTemplate}}"/>
+	<img ng-src="{{lossTemplate}}"/>
+</div>
+<div class="row" >
+    <div class="col s4">
+	    <table class="highlight bordered" >
+<!-- 	        <thead>
+	        <tr>
+	            <th>ID</th>
+	        </tr>
+	        </thead> -->
+	        <tbody>
+	        <tr ng-repeat="run in runs">
+	        	<td><a href ng-click="getResult(run)">{{run}}</a></td>
+	        </tr>
+	        </tbody>
+	    </table>
+    </div>
+    <div  class="col s8">
+		<pre class="pre-scrollable" style="outline: 1px solid orange; height: 57vh" ng-bind="result | json"></pre>
+	</div>
+</div>
